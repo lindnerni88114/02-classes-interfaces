@@ -29,6 +29,7 @@ public class SimpleListTest {
 
 	@Test
 	void testAddElements(){
+
 		int counter = 0;
 		for(Object o : testList){
 			counter++;
@@ -63,6 +64,22 @@ public class SimpleListTest {
 		for(Object o : result){
 			int i = (int)o;
 			assertTrue(i % 2 == 0);
+		}
+	}
+
+	@Test
+	void lessThanFour(){
+		SimpleListImpl result = (SimpleListImpl) testList.filter(new SimpleFilter() {
+			@Override
+			public boolean include(Object item) {
+				int current = (int) item;
+				return current < 4;
+			}
+		});
+		for (Object o : result)
+		{
+			int i = (int) o;
+			assertTrue(i < 4);
 		}
 	}
 }
