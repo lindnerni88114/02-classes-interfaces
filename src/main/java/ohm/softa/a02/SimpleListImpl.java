@@ -16,14 +16,18 @@ public class SimpleListImpl implements SimpleList, Iterable<Object>
     @Override
     public void add(Object item)
     {
-        Element curr = new Element(item);
+        Element newElement = new Element(item);
         if(head == null){
-            head = curr;
-            head.next = null;
+            head = newElement;
+
         }
         else{
-            curr.next = head;
-            head = curr;
+            Element curr = this.head;
+            while(curr.getNext() != null){
+                curr = curr.getNext();
+            }
+            curr.setNext(item);
+
 
         }
     }
@@ -34,7 +38,7 @@ public class SimpleListImpl implements SimpleList, Iterable<Object>
         Element cuEle = head;
         while(cuEle != null){
             i++;
-            cuEle = cuEle.next;
+            cuEle = cuEle.getNext();
         }
         return i;
     }
@@ -66,7 +70,7 @@ public class SimpleListImpl implements SimpleList, Iterable<Object>
                 return true;
             }
             else{
-                return currElement.next != null;
+                return currElement.getNext() != null;
             }
 
 
@@ -76,26 +80,42 @@ public class SimpleListImpl implements SimpleList, Iterable<Object>
         public Object next() {
             if(currElement == null && head != null){
                 currElement = head;
-                return currElement.item;
+                return currElement.getItem();
             }
             else{
 
-                currElement = currElement.next;
-                return currElement.item;
+                currElement = currElement.getNext();
+                return currElement.getItem();
             }
 
         }
     }
 
-    static class Element
+    //static for less complexity because static doesn´t allow access to objects from outer class
+    // private because we use this class just for intern logic
+    private static class Element
     {
-        Object item;
-        Element next;
+        private Object item;
+        private Element next;
 
         public Element(Object Item){
             item = Item;
 
         }
+
+        public Object getItem(){
+            return item;
+        }
+
+        public Element getNext(){
+            return next;
+        }
+
+        public Element setNext(Object o){
+            return next = new Element(o);
+        }
+
+
 
     }
 

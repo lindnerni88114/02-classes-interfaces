@@ -69,17 +69,33 @@ public class SimpleListTest {
 
 	@Test
 	void lessThanFour(){
-		SimpleListImpl result = (SimpleListImpl) testList.filter(new SimpleFilter() {
-			@Override
-			public boolean include(Object item) {
-				int current = (int) item;
-				return current < 4;
-			}
-		});
+		SimpleListImpl result = (SimpleListImpl) testList.filter(o -> (int) o < 4); //with lamda
+
 		for (Object o : result)
 		{
 			int i = (int) o;
 			assertTrue(i < 4);
+		}
+	}
+
+	@Test
+	void everyThirdOnly(){
+
+		SimpleListImpl result = (SimpleListImpl) testList.filter(new SimpleFilter() {
+			int i = 0;
+			@Override
+			public boolean include(Object item) {
+					if(i == 3){
+						i = 0;
+						return true;
+					}
+					i++;
+					return false;
+			}
+		});
+		for (Object o : result) {
+			int i = (int) o;
+
 		}
 	}
 }
